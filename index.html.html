@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudySmarter – Find Your Perfect Revision Method</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,700;0,900;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f0e8;
+    --ink: #1a1410;
+    --accent: #d4522a;
+    --accent2: #3b6e4f;
+    --card: #fffdf8;
+    --muted: #8a8070;
+    --border: #d8cfc0;
+    --tag-bg: #ede8df;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  header {
+    padding: 60px 40px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+    color: var(--accent);
+    margin-bottom: 60px;
+    display: block;
+  }
+
+  .hero-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    max-width: 700px;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    margin-top: 20px;
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 500px;
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .deco-line {
+    position: absolute;
+    right: 40px;
+    top: 60px;
+    width: 200px;
+    height: 200px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+
+  .deco-dot {
+    position: absolute;
+    right: 100px;
+    top: 120px;
+    width: 12px;
+    height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  /* FILTERS */
+  .filters-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 40px 20px;
+  }
+
+  .filters-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .filter-btn {
+    border: 1.5px solid var(--border);
+    background: var(--card);
+    color: var(--ink);
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .filter-btn.active {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--bg);
+  }
+
+  /* SEARCH */
+  .search-wrap {
+    max-width: 1100px;
+    margin: 0 auto 10px;
+    padding: 0 40px;
+  }
+
+  .search-input {
+    width: 100%;
+    max-width: 440px;
+    padding: 12px 20px;
+    border: 1.5px solid var(--border);
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem;
+    background: var(--card);
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-input:focus {
+    border-color: var(--accent);
+  }
+
+  .search-input::placeholder { color: var(--muted); }
+
+  /* GRID */
+  .grid {
+    max-width: 1100px;
+    margin: 30px auto 80px;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    animation: fadeUp 0.4s ease both;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .card:hover::before { transform: scaleX(1); }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.09);
+    border-color: transparent;
+  }
+
+  .card-type {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--accent2);
+  }
+
+  .card-icon {
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  .card-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  .card-desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+
+  .tag {
+    background: var(--tag-bg);
+    color: var(--muted);
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 400;
+  }
+
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--accent);
+    text-decoration: none;
+    transition: gap 0.2s;
+  }
+
+  .card-link:hover { gap: 10px; }
+
+  .card-free {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    padding: 3px 8px;
+    border-radius: 100px;
+    background: #e8f5ee;
+    color: var(--accent2);
+  }
+
+  .card-paid {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    padding: 3px 8px;
+    border-radius: 100px;
+    background: #fef3ee;
+    color: var(--accent);
+  }
+
+  /* No results */
+  .no-results {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 60px 0;
+    color: var(--muted);
+    font-size: 1.05rem;
+    font-style: italic;
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+  }
+
+  /* ANIM */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card:nth-child(1) { animation-delay: 0.05s }
+  .card:nth-child(2) { animation-delay: 0.1s }
+  .card:nth-child(3) { animation-delay: 0.15s }
+  .card:nth-child(4) { animation-delay: 0.2s }
+  .card:nth-child(5) { animation-delay: 0.25s }
+  .card:nth-child(6) { animation-delay: 0.3s }
+
+  @media (max-width: 600px) {
+    header, .filters-section, .search-wrap, .grid { padding-left: 20px; padding-right: 20px; }
+    .hero-title { font-size: 2.4rem; }
+    .deco-line, .deco-dot { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="logo">StudySmarter ✦</span>
+  <h1 class="hero-title">Find your <em>perfect</em><br>revision method</h1>
+  <p class="hero-sub">Browse tools and techniques to study smarter — filtered by how your brain works best.</p>
+  <div class="deco-line"></div>
+  <div class="deco-dot"></div>
+</header>
+
+<div class="search-wrap">
+  <input class="search-input" type="text" id="searchInput" placeholder="Search tools or methods…">
+</div>
+
+<div class="filters-section">
+  <div class="filters-label">Method Type</div>
+  <div class="filter-group" id="typeFilters">
+    <button class="filter-btn active" data-filter="type" data-value="all">All</button>
+    <button class="filter-btn" data-filter="type" data-value="active-recall">Active Recall</button>
+    <button class="filter-btn" data-filter="type" data-value="visual">Visual Learning</button>
+    <button class="filter-btn" data-filter="type" data-value="spaced">Spaced Repetition</button>
+    <button class="filter-btn" data-filter="type" data-value="practice">Practice & Testing</button>
+    <button class="filter-btn" data-filter="type" data-value="notes">Note-Taking</button>
+    <button class="filter-btn" data-filter="type" data-value="focus">Focus & Planning</button>
+  </div>
+
+  <div class="filters-label">Cost</div>
+  <div class="filter-group" id="costFilters">
+    <button class="filter-btn active" data-filter="cost" data-value="all">All</button>
+    <button class="filter-btn" data-filter="cost" data-value="free">Free</button>
+    <button class="filter-btn" data-filter="cost" data-value="paid">Paid / Freemium</button>
+  </div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+const resources = [
+  {
+    name: "Anki",
+    icon: "🃏",
+    type: "spaced",
+    typeLabel: "Spaced Repetition",
+    cost: "free",
+    desc: "The gold standard flashcard app. Uses an algorithm to show you cards just before you'd forget them — incredibly efficient for long-term memory.",
+    tags: ["Flashcards", "Memory", "Self-paced"],
+    url: "https://apps.ankiweb.net"
+  },
+  {
+    name: "Quizlet",
+    icon: "⚡",
+    type: "active-recall",
+    typeLabel: "Active Recall",
+    cost: "paid",
+    desc: "Create or find flashcard sets, then test yourself with multiple modes including Learn, Match, and written tests. Great for vocabulary and definitions.",
+    tags: ["Flashcards", "Quizzes", "Collaborative"],
+    url: "https://quizlet.com"
+  },
+  {
+    name: "Khan Academy",
+    icon: "🎓",
+    type: "practice",
+    typeLabel: "Practice & Testing",
+    cost: "free",
+    desc: "Free video lessons and practice exercises on maths, science, history, and more. Brilliant for filling gaps in your understanding step by step.",
+    tags: ["Videos", "Exercises", "GCSE/A-Level"],
+    url: "https://www.khanacademy.org"
+  },
+  {
+    name: "Notion",
+    icon: "📓",
+    type: "notes",
+    typeLabel: "Note-Taking",
+    cost: "free",
+    desc: "A flexible workspace to build your own study system — Cornell notes, topic summaries, revision calendars, or anything else you can imagine.",
+    tags: ["Notes", "Organisation", "Templates"],
+    url: "https://notion.so"
+  },
+  {
+    name: "Pomodoro Technique",
+    icon: "🍅",
+    type: "focus",
+    typeLabel: "Focus & Planning",
+    cost: "free",
+    desc: "Study for 25 minutes, rest for 5. Repeat. One of the most proven methods for staying focused and avoiding burnout during long revision sessions.",
+    tags: ["Productivity", "Time management", "No app needed"],
+    url: "https://pomofocus.io"
+  },
+  {
+    name: "Mind Mapping",
+    icon: "🗺️",
+    type: "visual",
+    typeLabel: "Visual Learning",
+    cost: "free",
+    desc: "Draw diagrams connecting ideas around a central topic. Brilliant for visual learners who want to see how concepts link together in a subject.",
+    tags: ["Visual", "Connections", "Paper or digital"],
+    url: "https://www.mindmup.com"
+  },
+  {
+    name: "ExamPro / Past Papers",
+    icon: "📝",
+    type: "practice",
+    typeLabel: "Practice & Testing",
+    cost: "free",
+    desc: "Nothing beats doing past exam papers under timed conditions. Find papers from your exam board (AQA, Edexcel, OCR) and practice mark schemes.",
+    tags: ["Exams", "Timed practice", "Mark schemes"],
+    url: "https://www.exampro.co.uk"
+  },
+  {
+    name: "Feynman Technique",
+    icon: "💡",
+    type: "active-recall",
+    typeLabel: "Active Recall",
+    cost: "free",
+    desc: "Explain a topic as if teaching it to a 12-year-old. If you can't, you've found a gap. Go back, study, then try again. Forces deep understanding.",
+    tags: ["No app", "Deep learning", "Self-testing"],
+    url: "https://fs.blog/feynman-technique/"
+  },
+  {
+    name: "GoodNotes / Notability",
+    icon: "✏️",
+    type: "notes",
+    typeLabel: "Note-Taking",
+    cost: "paid",
+    desc: "Digital handwriting apps for iPad. Write notes by hand (which aids memory) while keeping everything organised and searchable on your device.",
+    tags: ["Handwriting", "iPad", "Organisation"],
+    url: "https://www.goodnotes.com"
+  },
+  {
+    name: "YouTube Study Channels",
+    icon: "▶️",
+    type: "visual",
+    typeLabel: "Visual Learning",
+    cost: "free",
+    desc: "Channels like 3Blue1Brown, CGP Grey, and Cognito make complex subjects visual and engaging. Great for understanding before memorising.",
+    tags: ["Videos", "Explanation", "Free"],
+    url: "https://www.youtube.com"
+  },
+  {
+    name: "RemNote",
+    icon: "🔁",
+    type: "spaced",
+    typeLabel: "Spaced Repetition",
+    cost: "paid",
+    desc: "Combines Cornell-style notes with built-in spaced repetition flashcards. Write your notes once and automatically generate revision cards from them.",
+    tags: ["Notes + Flashcards", "All-in-one", "Powerful"],
+    url: "https://www.remnote.com"
+  },
+  {
+    name: "Retrieval Practice",
+    icon: "🧠",
+    type: "active-recall",
+    typeLabel: "Active Recall",
+    cost: "free",
+    desc: "Close your notes and write everything you can remember about a topic. The effort of retrieval itself strengthens memory far more than re-reading.",
+    tags: ["No app", "Proven science", "Simple"],
+    url: "https://www.retrievalpractice.org"
+  },
+  {
+    name: "Obsidian",
+    icon: "🪨",
+    type: "notes",
+    typeLabel: "Note-Taking",
+    cost: "free",
+    desc: "A powerful linked note-taking app. Build a personal knowledge base where ideas connect like a web — ideal for humanities and complex topics.",
+    tags: ["Linked notes", "Local storage", "Advanced"],
+    url: "https://obsidian.md"
+  },
+  {
+    name: "Todoist / Notion Calendar",
+    icon: "📅",
+    type: "focus",
+    typeLabel: "Focus & Planning",
+    cost: "free",
+    desc: "Plan your revision timetable so every subject gets covered. Spreading revision across weeks (spaced practice) dramatically improves recall.",
+    tags: ["Timetable", "Planning", "Multi-subject"],
+    url: "https://todoist.com"
+  },
+  {
+    name: "Canva / Draw.io",
+    icon: "🎨",
+    type: "visual",
+    typeLabel: "Visual Learning",
+    cost: "free",
+    desc: "Create your own colourful revision posters, timelines, and diagrams. Making visual summaries forces you to process and organise the content.",
+    tags: ["Creative", "Visual summaries", "Posters"],
+    url: "https://www.canva.com"
+  },
+];
+
+let activeType = 'all';
+let activeCost = 'all';
+let searchQuery = '';
+
+function render() {
+  const grid = document.getElementById('grid');
+  let filtered = resources.filter(r => {
+    const typeMatch = activeType === 'all' || r.type === activeType;
+    const costMatch = activeCost === 'all' || r.cost === activeCost;
+    const q = searchQuery.toLowerCase();
+    const searchMatch = !q || r.name.toLowerCase().includes(q) || r.desc.toLowerCase().includes(q) || r.tags.some(t => t.toLowerCase().includes(q));
+    return typeMatch && costMatch && searchMatch;
+  });
+
+  grid.innerHTML = '';
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '<p class="no-results">No results found — try a different filter or search term.</p>';
+    return;
+  }
+
+  filtered.forEach((r, i) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.animationDelay = (i * 0.06) + 's';
+
+    const badge = r.cost === 'free'
+      ? `<span class="card-free">Free</span>`
+      : `<span class="card-paid">Freemium</span>`;
+
+    card.innerHTML = `
+      ${badge}
+      <div class="card-type">${r.typeLabel}</div>
+      <div class="card-icon">${r.icon}</div>
+      <div class="card-name">${r.name}</div>
+      <div class="card-desc">${r.desc}</div>
+      <div class="card-tags">${r.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      <a class="card-link" href="${r.url}" target="_blank" rel="noopener">Visit →</a>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// Filters
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const filter = btn.dataset.filter;
+    const value = btn.dataset.value;
+
+    if (filter === 'type') activeType = value;
+    if (filter === 'cost') activeCost = value;
+
+    document.querySelectorAll(`[data-filter="${filter}"]`).forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  });
+});
+
+// Search
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQuery = e.target.value;
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
